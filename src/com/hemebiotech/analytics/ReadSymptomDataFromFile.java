@@ -9,15 +9,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Implementation that reads symptoms from a text file. Each line in the file represents a single
  * symptom.
  */
 public class ReadSymptomDataFromFile implements ISymptomReader {
-    private static final Logger LOGGER = Logger.getLogger(ReadSymptomDataFromFile.class.getName());
     private final String filepath;
 
     /**
@@ -54,7 +51,6 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
                 }
             }
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error while reading symptoms file", e);
             throw new RuntimeException("Unable to read symptoms file", e);
         }
 
