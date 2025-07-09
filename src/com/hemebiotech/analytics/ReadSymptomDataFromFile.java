@@ -3,45 +3,61 @@ package com.hemebiotech.analytics;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * Simple brute force implementation
- *
+ * Implementation that reads symptoms from a text file.
+ * Each line in the file represents a single symptom.
  */
 public class ReadSymptomDataFromFile implements ISymptomReader {
+    private static final Logger LOGGER = Logger.getLogger(ReadSymptomDataFromFile.class.getName());
+    private final String filepath;
 
-	private String filepath;
-	
+    /**
+     * Constructor to initialize the symptom reader.
+     *
+     * @param filepath full or relative path to the file containing symptoms (one per line)
+     * @throws IllegalArgumentException if the filepath is null, empty, or if the file doesn't exist
+     */
+    public ReadSymptomDataFromFile(String filepath) {
+        if (filepath == null || filepath.trim().isEmpty()) {
+            throw new IllegalArgumentException("Filepath cannot be null or empty");
+        }
+        
+        Path path = Paths.get(filepath);
+        if (!Files.exists(path)) {
+            throw new IllegalArgumentException("Specified file does not exist: " + filepath);
+        }
+        
+        this.filepath = filepath;
+    }
+
 	/**
-	 * 
-	 * @param filepath a full or partial path to file with symptom strings in it, one per line
+	 *
+	 * {@inheritDoc}
 	 */
-	public ReadSymptomDataFromFile (String filepath) {
-		this.filepath = filepath;
-	}
-	
 	@Override
-	public List<String> GetSymptoms() {
-		ArrayList<String> result = new ArrayList<String>();
-		
-		if (filepath != null) {
-			try {
-				BufferedReader reader = new BufferedReader (new FileReader(filepath));
-				String line = reader.readLine();
-				
-				while (line != null) {
-					result.add(line);
-					line = reader.readLine();
-				}
-				reader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return result;
-	}
+    public List<String> getSymptoms() {
+        List<String> symptoms = new ArrayList<>();
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty()) {
+                    symptoms.add(line.trim());
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error while reading symptoms file", e);
+				throw new RuntimeException("Unable to read symptoms file", e);
+        }
 
+        return symptoms;
+    }
 }

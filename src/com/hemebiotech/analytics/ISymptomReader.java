@@ -11,10 +11,13 @@ import java.util.List;
  * 
  */
 public interface ISymptomReader {
+
 	/**
-	 * If no data is available, return an empty List
-	 * 
-	 * @return a raw listing of all Symptoms obtained from a data source, duplicates are possible/probable
+	 * Reads and returns the list of symptoms from the file.
+	 * Duplicates are preserved in the returned list.
+	 *
+	 * @return a list of all symptoms read from the file
+	 * @throws RuntimeException if an error occurs while reading the file
 	 */
-	List<String> GetSymptoms ();
+	List<String> getSymptoms ();
 }
