@@ -6,13 +6,19 @@ import java.util.Map;
 
 public class WriteSymptomDataToFile implements ISymptomWriter {
 
-    private static final String OUTPUT_FILE = "result.out";
+    private final String outputFile;
     private static final String OUTPUT_FORMAT = "%s : %d%n";
 
     /**
      * Default constructor
      */
-    public WriteSymptomDataToFile() {}
+    public WriteSymptomDataToFile(String outputFile) {
+        if (outputFile == null || outputFile.trim().isEmpty()) {
+            throw new IllegalArgumentException("Output file cannot be null or empty");
+        }
+
+        this.outputFile = outputFile;
+    }
 
     /**
      *
@@ -26,7 +32,7 @@ public class WriteSymptomDataToFile implements ISymptomWriter {
 
         int sum = 0;
 
-        try (FileWriter writer = new FileWriter(OUTPUT_FILE)) {
+        try (FileWriter writer = new FileWriter(outputFile)) {
             // Header
             writer.write("---------- ---------- ----------\n");
             writer.write("Symptoms and their counts:\n");
@@ -34,10 +40,7 @@ public class WriteSymptomDataToFile implements ISymptomWriter {
 
             // Content
             for (Map.Entry<String, Integer> entry : sortedResult.entrySet()) {
-                writer.write(String.format(OUTPUT_FORMAT,
-                    entry.getKey(),
-                    entry.getValue())
-                );
+                writer.write(String.format(OUTPUT_FORMAT, entry.getKey(), entry.getValue()));
                 sum += entry.getValue();
             }
 
@@ -47,7 +50,7 @@ public class WriteSymptomDataToFile implements ISymptomWriter {
             writer.write("Total number of symptoms: " + sum + "\n");
             writer.write("---------- ---------- ----------\n");
         } catch (IOException e) {
-            throw new RuntimeException("Error writing to file: " + OUTPUT_FILE, e);
+            throw new RuntimeException("Error writing to file: " + outputFile, e);
         }
     }
 }

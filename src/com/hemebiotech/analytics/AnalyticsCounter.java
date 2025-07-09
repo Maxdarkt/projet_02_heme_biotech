@@ -29,4 +29,16 @@ public class AnalyticsCounter {
         writer.writeSymptoms(symptoms);
     }
 
+    public void displaySymptoms(Map<String, Integer> symptoms) {
+        int sum = 0;
+
+        System.out.println("Symptoms and their counts:");
+        for (Map.Entry<String, Integer> entry : symptoms.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+            sum += entry.getValue();
+        }
+
+        System.out.println("\nTotal number of symptoms: " + sum);
+    }
+
 }
