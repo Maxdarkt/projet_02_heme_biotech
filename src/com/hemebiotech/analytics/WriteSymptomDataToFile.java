@@ -25,8 +25,8 @@ public class WriteSymptomDataToFile implements ISymptomWriter {
      * {@inheritDoc}
      */
     @Override
-    public void writeSymptoms(Map<String, Integer> sortedResult) {
-        if (sortedResult == null || sortedResult.isEmpty()) {
+    public void writeSymptoms(Map<String, Integer> sortedSymptoms) {
+        if (sortedSymptoms == null || sortedSymptoms.isEmpty()) {
             throw new IllegalArgumentException("Symptom count map cannot be null or empty");
         }
 
@@ -39,7 +39,7 @@ public class WriteSymptomDataToFile implements ISymptomWriter {
             writer.write("---------- ---------- ----------\n\n");
 
             // Content
-            for (Map.Entry<String, Integer> entry : sortedResult.entrySet()) {
+            for (Map.Entry<String, Integer> entry : sortedSymptoms.entrySet()) {
                 writer.write(String.format(OUTPUT_FORMAT, entry.getKey(), entry.getValue()));
                 sum += entry.getValue();
             }

@@ -1,8 +1,5 @@
 package com.hemebiotech.analytics;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * Main class that demonstrates the analytics functionality. This class orchestrates the reading,
  * counting, sorting, and writing of symptoms.
@@ -11,7 +8,7 @@ public class Main {
 
     /**
      * Main method that executes the symptom analytics process.
-     * 
+     *
      * @param args command line arguments (not used)
      */
     public static void main(String[] args) {
@@ -31,19 +28,19 @@ public class Main {
         AnalyticsCounter counter = new AnalyticsCounter(reader, writer);
 
         // 4. get the symptoms
-        List<String> symptoms = counter.getSymptoms();
+        counter.getSymptoms();
 
-        // 5. count the symptoms
-        Map<String, Integer> symptomCounts = counter.countSymptoms(symptoms);
+        // 5. sort the symptoms
+        counter.sortSymptoms();
 
-        // 6. sort the symptoms
-        Map<String, Integer> sortedSymptoms = counter.sortSymptoms(symptomCounts);
+        // 6. count the symptoms
+        counter.countSymptoms();
 
         // 7. write the symptoms
-        counter.writeSymptoms(sortedSymptoms);
+        counter.writeSymptoms();
 
         // 8. display the symptoms
-        counter.displaySymptoms(sortedSymptoms);
+        counter.displaySymptoms();
 
         System.out.println(
                 "------------------------------------------------------------------------");

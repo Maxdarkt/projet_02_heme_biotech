@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Implementation that reads symptoms from a text file. Each line in the file represents a single
@@ -55,21 +54,5 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
         }
 
         return symptoms;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Map<String, Integer> countSymptoms(List<String> symptoms) {
-        return SymptomCounter.countSymptoms(symptoms);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Map<String, Integer> sortSymptoms(Map<String, Integer> symptomCounts) {
-        return SymptomCounter.sortSymptoms(symptomCounts);
     }
 }
